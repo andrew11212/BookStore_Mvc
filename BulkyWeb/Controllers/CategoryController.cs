@@ -1,5 +1,7 @@
 ﻿using BulkyWeb.Data;
+using BulkyWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.Controllers
 {
@@ -14,6 +16,22 @@ namespace BulkyWeb.Controllers
 		{
 			var category = _Context.Categories.ToList();
 			return View(category);
+		}
+
+		public IActionResult Create() 
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Create(Category category)
+		{
+			if (ModelState.IsValid)
+			{
+				_Context.Categories.Add(category);
+				_Context.SaveChanges();
+				return RedirectToAction(nameof(Index));  // Redirect back to the list after saving
+			}
+			return View(category); // Return view with model if validation fails
 		}
 	}
 }
