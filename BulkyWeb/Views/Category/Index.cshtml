@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Category List";
 }
-
 <div class="container">
     <div class="row pt-4 pb-2">
         <div class="col-6">
@@ -30,6 +29,22 @@
                 <tr>
                     <td>@category.Name</td>
                     <td>@category.DisplayOrder</td>
+                    <td>
+                        <div class=" btn-group" role="group">
+                            <a class="btn btn-primary" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">
+                                <i class="bi bi-pencil-square"></i>
+                                Edit
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class=" btn-group" role="group">
+                            <a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id">
+                                <i class="bi bi-trash-fill"></i>
+                                Delete
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
