@@ -3,50 +3,65 @@
 @{
     ViewBag.Title = "Category List";
 }
-<div class="container">
-    <div class="row pt-4 pb-2">
-        <div class="col-6">
-            <h2 class="text-primary">CategoryList</h2>
+
+    
+    <div class="card shadow border-0 mt-4">
+        <div class="row  pb-0">
+            <div class="col-12 d-flex justify-content-end ">
+                <a asp-controller="Category" asp-action="Create" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-patch-plus"></i> Create New Category
+                </a>
+            </div>
         </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-patch-plus"></i>Create New Category
-            </a>
+        <div class="card-header bg-secondary text-light text-center">
+            <h2 class="m-0">Categories</h2>
+        </div>
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <table class="table table-hover table-striped table-bordered text-center align-middle ">
+                    <thead class="table-secondary ">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Display Order</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model)
+                        {
+                            <tr>
+                                <td>@category.Name</td>
+                                <td>@category.DisplayOrder</td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a class="btn btn-sm btn-primary me-2"
+                                           asp-controller="Category"
+                                           asp-action="Edit"
+                                           asp-route-id="@category.Id"
+                                           aria-label="Edit @category.Name">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <a class="btn btn-sm btn-danger"
+                                           asp-controller="Category"
+                                           asp-action="Delete"
+                                           asp-route-id="@category.Id"
+                                           aria-label="Delete @category.Name">
+                                            <i class="bi bi-trash-fill"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            }
+            else
+            {
+                <div class="alert alert-warning text-center">
+                    No categories found. Please create one!
+                </div>
+            }
         </div>
     </div>
-
-
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Display Order</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model)
-            {
-                <tr>
-                    <td>@category.Name</td>
-                    <td>@category.DisplayOrder</td>
-                    <td>
-                        <div class=" btn-group" role="group">
-                            <a class="btn btn-primary" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">
-                                <i class="bi bi-pencil-square"></i>
-                                Edit
-                            </a>
-                        </div>
-                    </td>
-                    <td>
-                        <div class=" btn-group" role="group">
-                            <a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id">
-                                <i class="bi bi-trash-fill"></i>
-                                Delete
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>

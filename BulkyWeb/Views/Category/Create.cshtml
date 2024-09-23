@@ -6,12 +6,12 @@
 <div class="card shadow border-0 mt-4">
     <div class="row">
         <div class="col-12 text-center">
-            <div class="card-header bg-secondary">
-                <h2 class="p-0 text-primary">Create Category</h2>
+            <div class="card-header bg-secondary bg-gradient text-light ">
+                <h2 class="p-0 text-light ">Create Category</h2>
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <form asp-controller="Category" asp-action="Create" method="post">
             @Html.AntiForgeryToken()
 
