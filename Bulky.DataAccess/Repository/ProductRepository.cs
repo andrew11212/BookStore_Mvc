@@ -1,28 +1,29 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepositery;
 using Bulky.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-	public class CategoryRepository : Repositery<Category>, ICategoryRepository
+	public class ProductRepository : Repositery<Product>,IProductRepository
 	{
 		private readonly ApplicationDBContext context;
 
-		public CategoryRepository(ApplicationDBContext context) : base(context)
-		{
+        public ProductRepository(ApplicationDBContext context):base(context) 
+        {
 			this.context = context;
 		}
-
-
-		public void Update(Category category)
+        public void Ubdate(Product product)
 		{
-			context.Categories.Update(category);
+			context.Update(product);
 		}
-
+		
 	}
+
 }

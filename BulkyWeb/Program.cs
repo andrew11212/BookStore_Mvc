@@ -17,6 +17,8 @@ namespace BulkyWeb
 			.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection")));
 
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
 
 			var app = builder.Build();
 
@@ -37,7 +39,7 @@ namespace BulkyWeb
 
 			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				pattern: "{area=customer}/{controller=Home}/{action=Index}/{id?}");
 
 			app.Run();
 		}
