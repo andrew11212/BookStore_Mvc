@@ -1,5 +1,7 @@
-using BulkyWeb.Data;
 using Microsoft.EntityFrameworkCore;
+using Bulky.DataAccess.Data;
+using Bulky.DataAccess.Repository.IRepositery;
+using Bulky.DataAccess.Repository;
 
 namespace BulkyWeb
 {
@@ -13,6 +15,11 @@ namespace BulkyWeb
 			builder.Services.AddControllersWithViews();
 			builder.Services.AddDbContext<ApplicationDBContext>(options=>options
 			.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection")));
+
+			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -32,7 +39,7 @@ namespace BulkyWeb
 
 			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				pattern: "{area=customer}/{controller=Home}/{action=Index}/{id?}");
 
 			app.Run();
 		}

@@ -1,0 +1,52 @@
+﻿@model Category
+
+@{
+    ViewBag.Title = "Edit Category";
+}
+<div class="card shadow border-0 mt-4">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="card-header bg-secondary">
+                <h2 class="p-0 text-light">Edit Category</h2>
+            </div>
+        </div>
+    </div>
+    </div>
+<div class="card-body">
+    <form asp-controller="Category" asp-action="Edit" method="post">
+        <div class="border p-3 ">
+            <div class="mb-3">
+                <input asp-for="Id" type="hidden" /> <!-- Hidden field for the Id -->
+            </div>
+            <div class="row">
+                <div class="form-floating py-3 col-12 ">
+                    <label asp-for="Name" class="ms-3 p-1"></label>
+                    <input asp-for="Name" class="form-control border-0 shadow" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating py-3 col-12">
+                    <label asp-for="DisplayOrder" class="ms-3 p-0"></label>
+                    <input asp-for="DisplayOrder" class="form-control border-0 shadow" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary w-100">
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+    
+
+    @section Scripts {
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }}
