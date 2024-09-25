@@ -1,57 +1,80 @@
-﻿@model IEnumerable<Bulky.Models.Product>
+﻿@model IEnumerable<Product>
 
 @{
-    ViewData["Title"] = "Product List";
+    ViewBag.Title = "Product List";
 }
 
-<h2>Product List</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ISBN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ListPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price50)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price100)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="col-12 d-flex justify-content-end  ">
+    <a asp-controller="Product" asp-action="Create" class="btn btn-primary shadow-sm">
+        <i class="bi bi-patch-plus"></i> Create New Product
+    </a>
+</div>
+<div class="card shadow border-0 mt-2 mb-5">
+    <div class="row  pb-0">
+    </div>
+    <div class="card-header bg-secondary text-light text-center">
+        <h2 class="m-0">Products</h2>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
         {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.ISBN</td>
-                <td>@item.Author</td>
-                <td>@item.ListPrice</td>
-                <td>@item.Price</td>
-                <td>@item.Price50</td>
-                <td>@item.Price100</td>
-                <td>
-                    <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> |
-                    <a asp-area="Admin" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> |
-                    <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <table class="table table-hover table-striped table-lg  table-borderless text-center align-middle ">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Price50</th>
+                        <th scope="col">Price100</th>
+                        <th scope="col">ListPrice</th>
+                        <th scope="col">Category</th>
 
-<a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-success">Create New Product</a>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.Title</td>
+                            <td>@product.ISBN</td>
+                            <td>@product.Author</td>
+                            <td>@product.Price</td>
+                            <td>@product.Price50</td>
+                            <td>@product.Price100</td>
+                            <td>@product.ListPrice</td>
+                            <td>@product.CategoryId</td>
+
+                            <td>
+                                <div class="d-flex justify-content-center mb-5">
+                                    <a class="btn btn-sm btn-primary me-2"
+                                       asp-controller="product"
+                                       asp-action="Edit"
+                                       asp-route-id="@product.Id"
+                                       aria-label="Edit @product.Title">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+                                    <a class="btn btn-sm btn-danger"
+                                       asp-controller="Product"
+                                       asp-action="Delete"
+                                       asp-route-id="@product.Id"
+                                       aria-label="Delete @product.Title">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+        else
+        {
+            <div class="alert alert-warning text-center">
+                No categories found. Please create one!
+            </div>
+        }
+    </div>
+</div>

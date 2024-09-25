@@ -20,7 +20,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             var category = unitOfWork.CategoryRepository.GetAll();
             return View(category);
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
