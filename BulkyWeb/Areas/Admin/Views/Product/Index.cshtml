@@ -17,9 +17,8 @@
         <h2 class="m-0">Products</h2>
     </div>
     <div class="card-body">
-        @if (Model.Any())
-        {
-            <table class="table table-hover table-striped table-lg  table-borderless text-center align-middle ">
+        
+            <table id="myTable" class="table table-hover table-striped table-lg  table-borderless text-center align-middle  " width="100%">
                 <thead>
                     <tr>
                         <th scope="col">Title</th>
@@ -32,49 +31,9 @@
                         <th scope="col">Category</th>
 
                     </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    @foreach (var product in Model)
-                    {
-                        <tr>
-                            <td>@product.Title</td>
-                            <td>@product.ISBN</td>
-                            <td>@product.Author</td>
-                            <td>@product.Price</td>
-                            <td>@product.Price50</td>
-                            <td>@product.Price100</td>
-                            <td>@product.ListPrice</td>
-                            <td>@product.CategoryId</td>
-
-                            <td>
-                                <div class="d-flex justify-content-center mb-5">
-                                    <a class="btn btn-sm btn-primary me-2"
-                                       asp-controller="product"
-                                       asp-action="Edit"
-                                       asp-route-id="@product.Id"
-                                       aria-label="Edit @product.Title">
-                                        <i class="bi bi-pencil-square"></i> Edit
-                                    </a>
-                                    <a class="btn btn-sm btn-danger"
-                                       asp-controller="Product"
-                                       asp-action="Delete"
-                                       asp-route-id="@product.Id"
-                                       aria-label="Delete @product.Title">
-                                        <i class="bi bi-trash-fill"></i> Delete
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
             </table>
-
-        }
-        else
-        {
-            <div class="alert alert-warning text-center">
-                No categories found. Please create one!
-            </div>
-        }
     </div>
 </div>
+@section Scripts{ 
+    <script src="~/js/Product.js"></script>
+}

@@ -17,7 +17,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		}
         public IActionResult Index()
         {
-            var category = unitOfWork.CategoryRepository.GetAll();
+            var category = unitOfWork.CategoryRepository.GetAll().ToList();
             return View(category);
         }
         [HttpGet]

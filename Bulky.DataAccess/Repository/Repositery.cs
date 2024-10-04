@@ -22,10 +22,10 @@ namespace Bulky.DataAccess.Repository
 			//Categories = Dbset;
 		}
 
-		public IEnumerable<T> GetAll()
+		public IQueryable<T> GetAll()
 		{
 			IQueryable<T> query = Set;
-			return query.ToList();
+			return query;
 		}
 
 		public T Get(Expression<Func<T, bool>> Filter)

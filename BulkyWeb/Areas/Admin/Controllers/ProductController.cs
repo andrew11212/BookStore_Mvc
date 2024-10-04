@@ -1,7 +1,13 @@
-﻿using Bulky.DataAccess.Repository.IRepositery;
+﻿using Bulky.DataAccess.Repository;
+using Bulky.DataAccess.Repository.IRepositery;
 using Bulky.Models;
+using Humanizer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -9,38 +15,107 @@ namespace BulkyWeb.Areas.Admin.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork unitOfWork;
+		private readonly IWebHostEnvironment webHostEnvironment;
 
-		public ProductController(IUnitOfWork unitOfWork)
-        {
+		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+		{
 			this.unitOfWork = unitOfWork;
+			this.webHostEnvironment = webHostEnvironment;
 		}
 
-		
+
 		public IActionResult Index()
 		{
-			var productList= unitOfWork.ProductRepository.GetAll().ToList();
+			var productList = unitOfWork.ProductRepository.GetAll().Include(c => c.Category).ToList();
 			return View(productList);
 		}
 
 		[HttpGet]
-		public IActionResult Create()
+		public IActionResult Ubsert(int? id)
 		{
-			return View();
+			// Initialize ProductViewModel
+			ProductViewModel productVM = new ProductViewModel()
+			{
+				product = new Product(),
+				CategoryList = unitOfWork.CategoryRepository.GetAll().Select(c => new SelectListItem
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				})
+			};
+
+			// Set ViewBag.Title based on the action (Create or Update)
+			if (id == null || id == 0)
+			{
+				ViewBag.Title = "Create Product";
+				return View(productVM);  // For Create
+			}
+			else
+			{
+				ViewBag.Title = "Update Product";
+				productVM.product = unitOfWork.ProductRepository.Get(p => p.Id == id.GetValueOrDefault());
+				if (productVM.product == null)
+				{
+					return NotFound();
+				}
+				return View(productVM);  // For Update
+			}
 		}
+
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create(Product product)
+		public IActionResult Ubsert(ProductViewModel productVM, IFormFile? file)
 		{
 			if (ModelState.IsValid)
 			{
-				unitOfWork.ProductRepository.Add(product);
+				string wwwRootPath = webHostEnvironment.WebRootPath;
+
+				if (file != null)
+				{
+					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+					string productPath = Path.Combine(wwwRootPath, "Images", "Product");
+
+					if (!string.IsNullOrEmpty(productVM.product.ImageUrl))
+					{
+						var oldImagePath = Path.Combine(wwwRootPath, productVM.product.ImageUrl.TrimStart('/').Replace("/", "\\"));
+
+						if (System.IO.File.Exists(oldImagePath))
+						{
+							System.IO.File.Delete(oldImagePath);
+						}
+
+					}
+
+					using (FileStream fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+					{
+						file.CopyTo(fileStream);
+					}
+
+
+					productVM.product.ImageUrl = Path.Combine("/Images/Product/", fileName).Replace("\\", "/");
+				}
+
+
+				if (productVM.product.Id == 0)
+				{
+					unitOfWork.ProductRepository.Add(productVM.product);
+					TempData["Success"] = "Product Created Successfully";
+				}
+				else
+				{
+					unitOfWork.ProductRepository.Ubdate(productVM.product);
+					TempData["Success"] = "Product Updated Successfully";
+				}
+
 				unitOfWork.Save();
-				TempData["Success"] = "Category Created successfully";
+
 				return RedirectToAction("Index");
 			}
-			return View(product);
+
+			return View(productVM);
 		}
+
 
 		public IActionResult Delete(int id)
 		{
@@ -67,30 +142,23 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			return View();
 		}
 		[HttpGet]
-		public ActionResult Edit(int id) 
+		public IActionResult GetAll()
 		{
-			var product = unitOfWork.ProductRepository.Get(e=>e.Id==id);
 
-			if (product == null) 
+			var products = unitOfWork.ProductRepository.GetAll();
+			var result = products.Select(p => new
 			{
-				return NotFound();
-			}
-			return View(product);
+				title = p.Title,
+				isbn = p.ISBN,
+				listPrice = p.ListPrice,
+				author=p.Author,
+				price = p.Price,
+				price50 = p.Price50,
+				price100 = p.Price100,
+				category = new { name = p.Category.Name }
+			}).ToList();
 
-		}
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-
-		public ActionResult Edit(Product product) 
-		{
-			if (ModelState.IsValid) 
-			{
-				unitOfWork.ProductRepository.Ubdate(product);
-				unitOfWork.Save();
-				TempData["Success"] = "Category updated successfully";
-				return RedirectToAction("Index");
-			}
-			return View(product);
+			return Json(new { data = result });
 
 		}
 	}

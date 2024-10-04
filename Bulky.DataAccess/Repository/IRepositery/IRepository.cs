@@ -9,7 +9,7 @@ namespace Bulky.DataAccess.Repository.IRepositery
 {
 	public interface IRepository <T> where T : class
 	{
-		IEnumerable<T> GetAll ();
+		IQueryable<T> GetAll ();
 
 		T Get (Expression<Func<T,bool>> Filter);
 

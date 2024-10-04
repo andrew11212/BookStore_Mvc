@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="//cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css" />
+
 
 </head>
 <body>
@@ -26,10 +28,10 @@
                             <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light"asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Content Managment
                             </a>
                             <ul class="dropdown-menu">
@@ -52,13 +54,15 @@
     </div>
 
     <footer class="border-top bg-primary footer text-muted ">
-        <div class="container text-center text-light" >
+        <div class="container text-center text-light">
             made Wtih <i class="bi bi-heart-fill"></i> From Andrew
         </div>
     </footer>
+    <script src="https://cdn.tiny.cloud/1/zktoezolqt8wy7o1wkb200kk7sfw6pp05w5kyz3be507ro7g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//cdn.datatables.net/2.1.7/js/dataTables.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
