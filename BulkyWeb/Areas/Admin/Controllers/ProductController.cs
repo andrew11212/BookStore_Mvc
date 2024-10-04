@@ -116,31 +116,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			return View(productVM);
 		}
 
-
-		public IActionResult Delete(int id)
-		{
-			var product = unitOfWork.ProductRepository.Get(p => p.Id == id);
-			if (id == 0)
-			{
-				return NotFound();
-			}
-			return View(product);
-		}
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public IActionResult DeleteConfirmed(int id)
-		{
-			var product = unitOfWork.ProductRepository.Get(p => p.Id == id);
-			if (ModelState.IsValid)
-			{
-				unitOfWork.ProductRepository.Remove(product);
-				unitOfWork.Save();
-				TempData["Success"] = "Category Deleted successfully";
-
-				return RedirectToAction(nameof(Index));
-			}
-			return View();
-		}
 		[HttpGet]
 		public IActionResult GetAll()
 		{
@@ -155,11 +130,29 @@ namespace BulkyWeb.Areas.Admin.Controllers
 				price = p.Price,
 				price50 = p.Price50,
 				price100 = p.Price100,
-				category = new { name = p.Category.Name }
+				category = new { name = p.Category.Name },
+				id=p.Id,
 			}).ToList();
 
 			return Json(new { data = result });
 
+		}
+		[HttpDelete]
+		public IActionResult Delete(int id)
+		{
+			var product = unitOfWork.ProductRepository.Get(p => p.Id == id);
+			if (product == null)
+			{
+				return Json(new { success = false, message = "Error Deleting Product" });
+			}
+			var oldImage=Path.Combine(webHostEnvironment.WebRootPath,product.ImageUrl.TrimStart('\\'));
+			if (System.IO.File.Exists(oldImage))
+			{
+				System.IO.File.Delete(oldImage);
+			}
+			unitOfWork.ProductRepository.Remove(product);
+			unitOfWork.Save();
+			return Json (new { success = true, message = "Deleted Successfully" });
 		}
 	}
 }
