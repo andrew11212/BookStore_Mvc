@@ -1,7 +1,9 @@
 ﻿using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepositery;
 using Bulky.Models;
+using Bulky.Utility;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +14,8 @@ using System.IO;
 namespace BulkyWeb.Areas.Admin.Controllers
 {
 	[Area("Admin")]  // Specify that this controller is part of the Admin area
+	[Authorize (Roles =SD.Role_Admin)]
+	
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork unitOfWork;
@@ -26,7 +30,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 		public IActionResult Index()
 		{
-			var productList = unitOfWork.ProductRepository.GetAll().Include(c => c.Category).ToList();
+			var productList = unitOfWork.ProductRepository.GetAll("Category").ToList();
 			return View(productList);
 		}
 

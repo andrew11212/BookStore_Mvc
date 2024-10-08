@@ -9,9 +9,9 @@ namespace Bulky.DataAccess.Repository.IRepositery
 {
 	public interface IRepository <T> where T : class
 	{
-		IQueryable<T> GetAll ();
+		IQueryable<T> GetAll (params string[] includes);
 
-		T Get (Expression<Func<T,bool>> Filter);
+		T Get (Expression<Func<T,bool>> Filter, params string[] includes);
 
 		 void Add(T entity);
 		

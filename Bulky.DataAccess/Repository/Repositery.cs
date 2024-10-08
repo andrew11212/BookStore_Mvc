@@ -10,30 +10,40 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-	public class Repositery<T>:IRepository<T> where T : class
+	public class Repositery<T> : IRepository<T> where T : class
 	{
 		private readonly ApplicationDBContext context;
 
 		internal DbSet<T> Set;
 		public Repositery(ApplicationDBContext context)
-        {
+		{
 			this.context = context;
-			this.Set=context.Set<T>();
+			this.Set = context.Set<T>();
 			//Categories = Dbset;
 		}
 
-		public IQueryable<T> GetAll()
+		public IQueryable<T> GetAll(params string[] includes)
 		{
 			IQueryable<T> query = Set;
+			foreach (var include in includes) 
+			{
+				query = query.Include(include);
+			}
 			return query;
 		}
 
-		public T Get(Expression<Func<T, bool>> Filter)
+		public T Get(Expression<Func<T, bool>> Filter, params string[] includes)
 		{
-
 			IQueryable<T> query = Set;
 
 			query = query.Where(Filter);
+
+			// Apply string-based includes
+			foreach (var include in includes)
+			{
+				query = query.Include(include);
+			}
+
 			return query.FirstOrDefault();
 		}
 
@@ -51,5 +61,7 @@ namespace Bulky.DataAccess.Repository
 		{
 			Set.RemoveRange(entity);
 		}
+
+		
 	}
 }

@@ -30,31 +30,37 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Content Managment
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Admin" asp-controller="Category" asp-action="Index" class="dropdown-item">Category</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a asp-area="Admin" asp-controller="Product" asp-action="Index" class="dropdown-item">Product</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                            </ul>
-                        </li>
-                    </ul>
+
+                        @if (User.IsInRole(SD.Role_Admin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Content Managment
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="Admin" asp-controller="Category" asp-action="Index" class="dropdown-item">Category</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a asp-area="Admin" asp-controller="Product" asp-action="Index" class="dropdown-item">Product</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                </ul>
+                            </li>
+                                }
+                        </ul>
+
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container py-0 mb-4">
+        <main role="main" class="py-0 mb-2">
             <partial name="_Notification" />
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top bg-primary footer text-muted ">
-        <div class="container text-center text-light">
+    <footer class="border-top bg-primary footer text-muted py-0  ">
+        <div class="container text-center text-light py-0">
             made Wtih <i class="bi bi-heart-fill"></i> From Andrew
         </div>
     </footer>
