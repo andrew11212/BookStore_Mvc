@@ -42,10 +42,12 @@
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a asp-area="Admin" asp-controller="Product" asp-action="Index" class="dropdown-item">Product</a></li>
                                     <li><hr class="dropdown-divider"></li>
+                                    <li><a asp-area="Admin" asp-controller="Company" asp-action="Index" class="dropdown-item">Company</a></li>
+                                    <li><hr class="dropdown-divider"></li>
                                 </ul>
                             </li>
-                                }
-                        </ul>
+                        }
+                    </ul>
 
                     <partial name="_LoginPartial" />
                 </div>
@@ -64,12 +66,15 @@
             made Wtih <i class="bi bi-heart-fill"></i> From Andrew
         </div>
     </footer>
-    <script src="https://cdn.tiny.cloud/1/zktoezolqt8wy7o1wkb200kk7sfw6pp05w5kyz3be507ro7g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- jQuery should be loaded first -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/2.1.7/js/dataTables.min.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/zktoezolqt8wy7o1wkb200kk7sfw6pp05w5kyz3be507ro7g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -9,6 +9,6 @@ namespace Bulky.DataAccess.Repository.IRepositery
 {
 	public interface ICompanyRepository:IRepository<Company>
 	{
-
+		void Update(Company company);
 	}
 }

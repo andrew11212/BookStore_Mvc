@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Bulky.DataAccess.Repository.IRepositery;
 using Bulky.Models;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -35,14 +36,16 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender, RoleManager<IdentityRole> roleManager,IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -119,6 +122,9 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 			public string ? PostalCode { get; set; } = string.Empty;
 
             public string? phoneNumber {  get; set; } = string.Empty;
+
+            public int? CompanyId{ get; set; }
+            public IEnumerable<SelectListItem>CompanyList { get; set; }
 		}
 
 
@@ -137,7 +143,16 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 {
                     Text = l,
                     Value = l
-                })
+                }),
+
+
+
+               CompanyList = _unitOfWork.CompanyRepository.GetAll().Select(c => new SelectListItem
+               {
+                   Text = c.Name,
+                   Value = c.Id.ToString()
+			   })
+
             };
 			ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

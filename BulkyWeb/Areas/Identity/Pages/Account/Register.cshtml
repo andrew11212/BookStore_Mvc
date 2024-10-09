@@ -73,6 +73,11 @@
                             <label class="ms-2" asp-for="Input.Role">Roles</label>
                             <span asp-validation-for="Input.Role" class="text-danger"></span>
                         </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.CompanyId" asp-items="@Model.Input.CompanyList" class="form-control" placeholder="Select Company"></select>
+                            <label class="ms-2" asp-for="Input.CompanyId">Companies</label>
+                            <span asp-validation-for="Input.CompanyId" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="col-12 bg-secondary bg-gradient ">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn-lg text-white ">Register</button>

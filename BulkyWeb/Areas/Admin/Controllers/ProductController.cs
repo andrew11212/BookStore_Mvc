@@ -30,7 +30,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 		public IActionResult Index()
 		{
-			var productList = unitOfWork.ProductRepository.GetAll("Category").ToList();
+			var productList = unitOfWork.ProductRepository.GetAll("Category");
 			return View(productList);
 		}
 
@@ -125,20 +125,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		{
 
 			var products = unitOfWork.ProductRepository.GetAll();
-			var result = products.Select(p => new
-			{
-				title = p.Title,
-				isbn = p.ISBN,
-				listPrice = p.ListPrice,
-				author=p.Author,
-				price = p.Price,
-				price50 = p.Price50,
-				price100 = p.Price100,
-				category = new { name = p.Category.Name },
-				id=p.Id,
-			}).ToList();
-
-			return Json(new { data = result });
+			return Json(new { data = products });
 
 		}
 		[HttpDelete]

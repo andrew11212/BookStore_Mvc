@@ -15,12 +15,16 @@ namespace Bulky.DataAccess.Repository
 
 		public IProductRepository ProductRepository { get; private set; }
 
+		public ICompanyRepository CompanyRepository { get; private set; }
+
 		public UnitOfWork(ApplicationDBContext context)
 		{
 			this.context = context;
 			CategoryRepository = new CategoryRepository(context);
 
 			ProductRepository = new ProductRepository(context);
+
+			CompanyRepository = new CompanyRepository(context);
 		}
 		public void Save()
 		{

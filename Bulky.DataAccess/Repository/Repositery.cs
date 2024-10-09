@@ -22,7 +22,7 @@ namespace Bulky.DataAccess.Repository
 			//Categories = Dbset;
 		}
 
-		public IQueryable<T> GetAll(params string[] includes)
+		public IEnumerable<T> GetAll(params string[] includes)
 		{
 			IQueryable<T> query = Set;
 			foreach (var include in includes) 

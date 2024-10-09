@@ -21,6 +21,12 @@ namespace Bulky.DataAccess.Repository
                 this.context = _context;
             }
 
+            
         }
-    }
+
+		public void Update(Company company)
+		{
+			context.Update(company);
+		}
+	}
 }

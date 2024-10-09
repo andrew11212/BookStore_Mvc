@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Bulky.DataAccess.Repository.IRepositery;
+using Bulky.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
+	[Area("Admin")]
 	public class CompanyController : Controller
 	{
-        public CompanyController()
+		private readonly IUnitOfWork unitOfWork;
+
+		public CompanyController(IUnitOfWork unitOfWork)
         {
-            
-        }
-        // GET: CompanyController
+			this.unitOfWork = unitOfWork;
+		}
         public ActionResult Index()
 		{
-			var CompanyList=
-			return View();
+			var CompanyList = unitOfWork.CompanyRepository.GetAll();
+
+			return View(CompanyList);
 		}
 
 		// GET: CompanyController/Details/5
@@ -31,58 +36,75 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		// POST: CompanyController/Create
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(IFormCollection collection)
+		public ActionResult Create(Company company)
 		{
-			try
+			if (ModelState.IsValid)
 			{
-				return RedirectToAction(nameof(Index));
+				unitOfWork.CompanyRepository.Add(company);
+				unitOfWork.Save();
+				return RedirectToAction("Index");
 			}
-			catch
-			{
-				return View();
-			}
+			return View(company);
 		}
 
 		// GET: CompanyController/Edit/5
 		public ActionResult Edit(int id)
 		{
-			return View();
+			var company = unitOfWork.CompanyRepository.Get(p => p.Id == id);
+			if (company == null)
+			{
+				return NotFound();
+			}
+			return View(company);
 		}
 
-		// POST: CompanyController/Edit/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection)
+		public ActionResult Edit(Company company)
 		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
+			var Companyindb=unitOfWork.CompanyRepository.Get(c=>c.Id==company.Id);
 
-		// GET: CompanyController/Delete/5
+			if (Companyindb == null) { return NotFound(); }
+
+			if (ModelState.IsValid)
+			{
+				Companyindb.Id = company.Id;
+				Companyindb.Name = company.Name;
+				Companyindb.Address = company.Address;
+				Companyindb.City = company.City;
+				Companyindb.PhoneNumber =company.PhoneNumber;
+				Companyindb.State = company.State;
+				Companyindb.PostalCode = company.PostalCode;
+				unitOfWork.Save();
+				return RedirectToAction("Index");
+			}
+			return View(company);
+		}
+			
+
+		[HttpDelete]
 		public ActionResult Delete(int id)
 		{
-			return View();
-		}
+			var company = unitOfWork.CompanyRepository.Get(c=>c.Id == id);
+			if (company ==null) 
+			{
+				return Json(new { success = false, message = "Error Deleting Product" });
 
-		// POST: CompanyController/Delete/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(int id, IFormCollection collection)
+
+			}
+			unitOfWork.CompanyRepository.Remove(company);
+			unitOfWork.Save();
+			return Json(new { success = true, message = "Company Deleted Successfuly" });
+
+		}
+	
+
+		[HttpGet]
+		public IActionResult GetAll()
 		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
+			var productlist=unitOfWork.CompanyRepository.GetAll();
+
+			return Json( new {Data= productlist});
 		}
 	}
 }

@@ -1,0 +1,80 @@
+﻿@model Company
+
+@{
+    ViewBag.Title = "Update Company";
+}
+<div class="card shadow border-0 mt-4">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="card-header bg-secondary bg-gradient text-white">
+                <h2 class="p-0 text-light">@ViewBag.Title</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <form asp-controller="Company" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="border p-3">
+                <div class="row pt-2">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Id" type="hidden" />
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Name" class="form-control border-0 shadow" />
+                        <label asp-for="Name" class="ms-2"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="PhoneNumber" class="form-control border-0 shadow" />
+                        <label asp-for="PhoneNumber" class="ms-2"></label>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="City" class="form-control border-0 shadow" />
+                        <label asp-for="City" class="ms-2"></label>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Address" class="form-control border-0 shadow" />
+                        <label asp-for="Address" class="ms-2"></label>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="State" class="form-control border-0 shadow" />
+                        <label asp-for="State" class="ms-2"></label>
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="PostalCode" class="form-control border-0 shadow" />
+                        <label asp-for="PostalCode" class="ms-2"></label>
+                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Company" asp-action="Index" class="btn btn-secondary w-100">
+                            Back To List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
