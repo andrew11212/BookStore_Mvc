@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Bulky.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Bulky.Models.Models;
 
 
 
@@ -21,6 +22,8 @@ namespace Bulky.DataAccess.Data
 
 		public DbSet<ApplicationUser> applicationUsers { get; set; }
 		public DbSet<Company> companies  { get; set; }
+
+		public DbSet<ShopingCart> shopingCarts { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

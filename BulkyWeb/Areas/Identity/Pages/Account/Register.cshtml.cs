@@ -174,6 +174,11 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 user.PostalCode=Input.PostalCode;
                 user.State = Input.State;
                 user.StreetAddress=Input.StreetAddress;
+
+                if (Input.Role == SD.Role_Comp)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

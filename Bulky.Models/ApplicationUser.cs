@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Bulky.Models.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.Models
 {
-	public class ApplicationUser:IdentityUser
+    public class ApplicationUser:IdentityUser
 	{
 		[Required]
         public string Name  { get; set; } =string.Empty;

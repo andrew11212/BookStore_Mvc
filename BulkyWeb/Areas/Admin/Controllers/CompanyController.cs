@@ -1,11 +1,11 @@
 ﻿using Bulky.DataAccess.Repository.IRepositery;
-using Bulky.Models;
+using Bulky.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
-	[Area("Admin")]
+    [Area("Admin")]
 	public class CompanyController : Controller
 	{
 		private readonly IUnitOfWork unitOfWork;

@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepositery;
 using Bulky.Models;
+using Bulky.Models.Models;
 using Bulky.Utility;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +31,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 		public IActionResult Index()
 		{
-			var productList = unitOfWork.ProductRepository.GetAll("Category");
+			var productList = unitOfWork.ProductRepository.GetAll(default,"Category");
 			return View(productList);
 		}
 

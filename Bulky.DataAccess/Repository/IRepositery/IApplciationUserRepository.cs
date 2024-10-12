@@ -1,4 +1,5 @@
-﻿using Bulky.Models.Models;
+﻿using Bulky.Models;
+using Bulky.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository.IRepositery
 {
-    public interface ICompanyRepository:IRepository<Company>
+    public interface IApplciationUserRepository : IRepository<ApplicationUser> 
 	{
-		void Update(Company company);
+
 	}
 }

@@ -22,9 +22,13 @@ namespace Bulky.DataAccess.Repository
 			//Categories = Dbset;
 		}
 
-		public IEnumerable<T> GetAll(params string[] includes)
+		public IEnumerable<T> GetAll(Expression<Func<T, bool>>? Filter =null, params string[] includes)
 		{
 			IQueryable<T> query = Set;
+			if(Filter != null)
+			{
+			query=query.Where(Filter);
+			}
 			foreach (var include in includes) 
 			{
 				query = query.Include(include);

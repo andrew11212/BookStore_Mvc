@@ -1,29 +1,28 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepositery;
 using Bulky.Models.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class ProductRepository : Repositery<Product>,IProductRepository
+    public class ShopingCartRepository : Repositery<ShopingCart>, IShopingCartRepositery
 	{
 		private readonly ApplicationDBContext context;
 
-        public ProductRepository(ApplicationDBContext context):base(context) 
-        {
+		public ShopingCartRepository(ApplicationDBContext context) : base(context)
+		{
 			this.context = context;
 		}
-        public void Ubdate(Product product)
-		{
-			context.Update(product);
-		}
-		
-	}
 
+
+		public void Update(ShopingCart shopingCart)
+		{
+			context.shopingCarts.Update(shopingCart);
+		}
+
+	}
 }

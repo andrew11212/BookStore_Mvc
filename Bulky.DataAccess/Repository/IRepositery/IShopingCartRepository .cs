@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository.IRepositery
 {
-    public interface ICompanyRepository:IRepository<Company>
+	public interface IShopingCartRepositery : IRepository<ShopingCart>
 	{
-		void Update(Company company);
+		void Update(ShopingCart shopingCart);
+
 	}
 }
