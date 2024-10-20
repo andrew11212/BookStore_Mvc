@@ -25,6 +25,11 @@ namespace Bulky.DataAccess.Data
 
 		public DbSet<ShopingCart> shopingCarts { get; set; }
 
+		public DbSet<OrderHeader> orderHeaders { get; set; }
+		public DbSet<OrderDetail> orderDetails { get; set; }
+
+
+
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

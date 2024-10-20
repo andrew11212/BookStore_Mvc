@@ -221,9 +221,25 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+			Input = new()
+			{
+				RoleList = _roleManager.Roles.Select(r => r.Name).Select(l => new SelectListItem
+				{
+					Text = l,
+					Value = l
+				}),
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+
+
+				CompanyList = _unitOfWork.CompanyRepository.GetAll().Select(c => new SelectListItem
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				})
+
+			};
+			// If we got this far, something failed, redisplay form
+			return Page();
         }
 
         private ApplicationUser CreateUser()

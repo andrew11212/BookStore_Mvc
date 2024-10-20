@@ -80,7 +80,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			}
 			return View(company);
 		}
-			
+
+		
 
 		[HttpDelete]
 		public ActionResult Delete(int id)
